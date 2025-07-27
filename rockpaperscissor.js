@@ -7,15 +7,33 @@ const scissorButtonElement = document.querySelector('.scissor-button');
 const resetButtonElement = document.querySelector('.score-reset-button');
 const autoplayButtonElement = document.querySelector('.auto-play-button');
 
-const playersMoveElement = document.querySelector('.players-move');
-const computersMoveElement = document.querySelector('.computers-move');
-const resultElement = document.querySelector('.result');
-const scoreElement = document.querySelector('.score');
+const displayContainerElement = document.querySelector('.js-display-container');
+const defaultPlayerText =document.querySelector('.js-player-default-text');
+const defaultComputerText =document.querySelector('.js-computer-default-text');
+const playerMoveImage = document.querySelector('.js-player-move-image');
+const computerMoveImage = document.querySelector('.js-computer-move-image');
+
+//const playersMoveElement = document.querySelector('.js-players-move');
+//const computersMoveElement = document.querySelector('.js-computers-move');
+const resultElement = document.querySelector('.js-result');
+const scoreElement = document.querySelector('.js-score');
+
 let result = '';
 
-// Score-
+// Score Object-
 
-const scoreObject = JSON.parse(localStorage.getItem("score")) || {wins: 0, loses: 0, draws: 0, result: '', playersMove:'', computersMove: ''};
+const scoreObject = JSON.parse(localStorage.getItem("score")) || {wins: 0, loses: 0, draws: 0};
+
+// Map images to Moves, Object-
+
+const moveImagePaths = {
+  "rock": '/img-0/rock.png',
+  "paper": '/img-0/paper.png',
+  "scissor": '/img-0/scissor.png'
+}
+
+// set display to default-
+resetDisplayToDefault();
 
 // Display score-
 displayScore();
@@ -119,20 +137,10 @@ function playGame(playerPicked) {
 
     }
     updateScore();
-
-    // Update result-
-    
-    function updateResult() {
-
-      scoreObject.result = `${result}`;
-      scoreObject.playersMove = `${playerPicked}`;
-      scoreObject.computersMove =`${computerPicked}`;
-    }
-    updateResult();
     
     // display Result-
 
-    displayResult(playerPicked, computerPicked);
+    displayResult(playerPicked, computerPicked, result);
 
     // display Score-
 
@@ -151,18 +159,31 @@ function playGame(playerPicked) {
 
 // Function to Display result-
 
-function displayResult(playerPicked, computerPicked) {
+function displayResult(playerPicked, computerPicked, gameResult) {
 
-  resultElement.innerText = `${result}`;
-  playersMoveElement.innerText = `${playerPicked}`;
-  computersMoveElement.innerText = `${computerPicked}`;
+  resultElement.innerText = gameResult;
+
+  playerMoveImage.src = moveImagePaths[playerPicked];
+  playerMoveImage.alt = playerPicked;
+
+  computerMoveImage.src = moveImagePaths[computerPicked];
+  computerMoveImage.alt = computerPicked;
+
+  displayContainerElement.classList.add('has-move');
+
+  resultElement.classList.add('flash-update');
+
+  setTimeout(() => {
+    resultElement.classList.remove('flash-update');
+
+  },300);
 }
 
 // Fucntion to Display score-
 
 function displayScore() {
   
-  scoreElement. innerText = `Wins: ${scoreObject.wins} | Loses: ${scoreObject.loses} | Draws:  ${scoreObject.draws}`;
+  scoreElement.innerText = `Wins: ${scoreObject.wins} | Loses: ${scoreObject.loses} | Draws:  ${scoreObject.draws}`;
 }
 
 // Function to reset score-
@@ -173,14 +194,29 @@ function resetScore() {
   scoreObject.wins = 0;
   scoreObject.loses = 0;
 
-  resultElement.innerText = '';
-  playersMoveElement.innerText = 'player\'s move';
-  computersMoveElement.innerText = 'computer\'s move';
+  resetDisplayToDefault();
 
   // store score in local storage-
   localStorage.setItem("score", JSON.stringify(scoreObject));
 
   displayScore();
+}
+
+
+// Function to reset display to default-
+
+function resetDisplayToDefault() {
+  displayContainerElement.classList.remove('has-move');
+
+  playerMoveImage.src = '';
+  playerMoveImage.alt = '';
+  computerMoveImage.src = '';
+  computerMoveImage.alt = '';
+
+  resultElement.innerText = '';
+  
+  defaultPlayerText.innerText = 'Your Move';
+  defaultComputerText.innerText = 'Computer\'s Move';
 }
 
 
@@ -191,3 +227,16 @@ paperButtonElement.addEventListener("click", () => playGame('paper'));
 scissorButtonElement.addEventListener("click", () => playGame('scissor'));
 resetButtonElement.addEventListener("click", () => resetScore());
 autoplayButtonElement.addEventListener("click", () => autoPlay());
+document.body.addEventListener("keydown", (e) => {
+  if(e.key === 'r' || e.key === 'R') {
+    playGame('rock');
+  
+  } else if(e.key === 'p' || e.key === 'P') {
+    playGame('paper');
+  
+  } else if(e.key === 's' || e.key === 'S') {
+    playGame('scissor');
+  
+  }
+  console.log(e.key);
+});

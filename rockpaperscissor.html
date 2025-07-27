@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissor</title>
-    <link rel="icon" href="/images/icons8-rock-16.png" type="image/x-icon">
+    <link rel="icon" href="/img-0/icons8-rock-16.png">
 
     <!-- StyleSheet -->
     <link rel="stylesheet" href="rockpaperscissor.css">
@@ -12,25 +12,45 @@
   </head>
 
   <body>
+
     
+    
+   
+<div class="title-and-display-container js-title-and-display-container">
+
+    <!-- Title -->
+    <div class="title js-title">Rock Paper Scissor</div>
+
     <!-- Display -->
-    <div class="display-container">
-      
-      <div class="players-move">player's move here</div>
-      <div class="score-result-container">
-         <div class="result">result here</div>
-         <div class="score">score here</div>
-      </div>
-      <div class="computers-move">computer's move here</div>
-    
+    <div class="display-container js-display-container">
+          <div class="players-move js-players-move">
+             
+            <span class="default-text js-player-default-text">Player's Move</span>
+            <img src="" alt="" class="display-move-image js-player-move-image" width="100px" height="auto">
+          
+          </div>
+
+          <div class="score-result-container">
+            <div class="result js-result">result here</div>
+            <div class="score js-score">score here</div>
+          </div>
+
+          <div class="computers-move js-computers-move">
+            
+            <span class="default-text js-computer-default-text">Computer's Move</span>
+            <img src="" alt="" class="display-move-image js-computer-move-image" width="100px" height="auto">
+
+          </div>
     </div>
+
+</div>
 
     <!-- Input -->
     <div class="input-container">
 
-      <button class="move-button rock-button">Rock</button>
-      <button class="move-button paper-button">Paper</button>
-      <button class="move-button scissor-button">Scissor</button>
+      <button class="move-button rock-button"><img src="/img-0/rock.png" alt="Rock" class="move-image" width="100px" height="100px" ></button>
+      <button class="move-button paper-button"><img src="/img-0/paper.png" alt="Paper" class="move-image" width="100px" height="100px" ></button>
+      <button class="move-button scissor-button"><img src="/img-0/scissor.png" alt="Scissor" class="move-image" width="100px" height="100px"></button>
       <button class="score-reset-button">Reset Score</button>
       <button class="auto-play-button">Auto play</button>
 
